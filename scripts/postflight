@@ -25,6 +25,16 @@ PROFILEPLIST=/tmp/`head -c10 /dev/urandom | md5`.plist
 $PLISTBUDDY -c "Add :MachineInfo:SystemProfile array" "$TMPPLIST"
 $PLISTBUDDY -c "Merge $PROFILEPLIST :MachineInfo:SystemProfile" "$TMPPLIST"
 
+# Get ARD Computer Info fields
+ARDPLIST=/tmp/`head -c10 /dev/urandom | md5`.plist
+i=1; while [ $i -lt 5 ]; do
+	$PLISTBUDDY -c "Add :ARDInfo$i string "$(defaults read /Library/Preferences/com.apple.RemoteDesktop Text$i)"" "$ARDPLIST"
+	i=$[$i+1]
+done
+
+# Merge ARD Computer Info fields with munki report
+$PLISTBUDDY -c "Merge $ARDPLIST" "$TMPPLIST"
+
 # Compress and encode report.
 REPORTTMP=`mktemp -t postflight`
 echo -n "base64bz2report=" > "$REPORTTMP"
@@ -63,5 +73,5 @@ if [ -e "$INVENTORYPATH" ] ; then
 fi
 
 # Clean up and exit
-rm -f "$REPORTTMP" "$TMPPLIST" "$PROFILEPLIST"
+rm -f "$REPORTTMP" "$TMPPLIST" "$PROFILEPLIST" "$ARDPLIST"
 exit 0

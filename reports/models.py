@@ -32,6 +32,10 @@ class MunkiReport(models.Model):
     runtype = models.CharField(max_length=64)
     runstate = models.CharField(max_length=16)
     console_user = models.CharField(max_length=64)
+    ard_info1 = models.CharField(max_length=64)
+    ard_info2 = models.CharField(max_length=64)
+    ard_info3 = models.CharField(max_length=64)
+    ard_info4 = models.CharField(max_length=64)
     errors = models.IntegerField(default=0)
     warnings = models.IntegerField(default=0)
     activity = models.TextField(editable=False, null=True)
@@ -95,6 +99,10 @@ class MunkiReport(models.Model):
             self.errors = 0
             self.warnings = 0
             self.console_user = "<None>"
+            self.ard_info1 = "<None>"
+            self.ard_info2 = "<None>"
+            self.ard_info3 = "<None>"
+            self.ard_info4 = "<None>"
             return
         
         # Check activity.
@@ -127,4 +135,17 @@ class MunkiReport(models.Model):
         self.console_user = "unknown"
         if "ConsoleUser" in plist:
             self.console_user = unicode(plist["ConsoleUser"])
-    
+        
+        # Check ARD Info.
+        self.ard_info1 = "unknown"
+        if "ARDInfo1" in plist:
+            self.ard_info1 = unicode(plist["ARDInfo1"])
+        self.ard_info2 = "unknown"
+        if "ARDInfo2" in plist:
+            self.ard_info2 = unicode(plist["ARDInfo2"])
+        self.ard_info3 = "unknown"
+        if "ARDInfo3" in plist:
+            self.ard_info3 = unicode(plist["ARDInfo3"])
+        self.ard_info4 = "unknown"
+        if "ARDInfo4" in plist:
+            self.ard_info4 = unicode(plist["ARDInfo4"])
