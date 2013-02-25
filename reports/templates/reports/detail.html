@@ -65,7 +65,7 @@
 	  <h3><small>{{ additional_info.model_description }}</small></h3>
 	{% endif %}
     <p>
-      <b>Report</b> | <a href='{% url inventory.views.detail machine.mac %}'>Inventory</a>
+      <b>Report</b> | <a href='{% url inventory.views.detail machine.mac %}'>Inventory</a> | <a href='vnc://{{ machine.hostname }}.rockingham.k12.va.us'>Share Screen</a>
       <span title="Last inventory date">
         :: {{ machine.last_inventory_update|date:"Y-m-d H:i" }}
       </span>
